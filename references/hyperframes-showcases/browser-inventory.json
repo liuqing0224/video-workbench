@@ -1,0 +1,126 @@
+[
+  {
+    "title": "HyperFrames：12 秒应用展示 — 三台悬浮手机",
+    "src": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/app-showcase.mp4",
+    "duration": 5.5,
+    "ready": 4,
+    "label": "Play HyperFrames：12 秒应用展示 — 三台悬浮手机"
+  },
+  {
+    "title": "HyperFrames：30 秒品牌混剪短片",
+    "src": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/logo-outro.mp4",
+    "duration": 6,
+    "ready": 3,
+    "label": "Play HyperFrames：30 秒品牌混剪短片"
+  },
+  {
+    "title": "HyperFrames：苹果风格飞行地图（出发地 → 目的地）",
+    "src": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/nyc-paris-flight.mp4",
+    "duration": 6,
+    "ready": 4,
+    "label": "Play HyperFrames：苹果风格飞行地图（出发地 → 目的地）"
+  },
+  {
+    "title": "HyperFrames HTML-in-Canvas：3D iPhone + MacBook 产品演示",
+    "src": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/vfx-iphone-device.mp4",
+    "duration": 15,
+    "ready": 3,
+    "label": "Play HyperFrames HTML-in-Canvas：3D iPhone + MacBook 产品演示"
+  },
+  {
+    "title": "HyperFrames HTML-in-Canvas：流体背景主视觉",
+    "src": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/vfx-liquid-background.mp4",
+    "duration": 12,
+    "ready": 1,
+    "label": "Play HyperFrames HTML-in-Canvas：流体背景主视觉"
+  },
+  {
+    "title": "HyperFrames HTML-in-Canvas：液态玻璃着陆页揭示",
+    "src": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/vfx-liquid-glass.mp4",
+    "duration": null,
+    "ready": 0,
+    "label": "Play HyperFrames HTML-in-Canvas：液态玻璃着陆页揭示"
+  },
+  {
+    "title": "HyperFrames HTML-in-Canvas：磁场粒子可视化",
+    "src": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/vfx-magnetic.mp4",
+    "duration": null,
+    "ready": 0,
+    "label": "Play HyperFrames HTML-in-Canvas：磁场粒子可视化"
+  },
+  {
+    "title": "HyperFrames HTML-in-Canvas：维度传送门揭示仪表盘",
+    "src": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/vfx-portal.mp4",
+    "duration": null,
+    "ready": 0,
+    "label": "Play HyperFrames HTML-in-Canvas：维度传送门揭示仪表盘"
+  },
+  {
+    "title": "HyperFrames HTML-in-Canvas：玻璃碎裂退场",
+    "src": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/vfx-shatter.mp4",
+    "duration": null,
+    "ready": 0,
+    "label": "Play HyperFrames HTML-in-Canvas：玻璃碎裂退场"
+  },
+  {
+    "title": "HyperFrames HTML-in-Canvas：电影感文字光标揭示",
+    "src": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/vfx-text-cursor.mp4",
+    "duration": null,
+    "ready": 0,
+    "label": "Play HyperFrames HTML-in-Canvas：电影感文字光标揭示"
+  },
+  {
+    "title": "HyperFrames：4 秒电影感 Logo 退场",
+    "src": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/logo-outro.mp4",
+    "duration": 6,
+    "ready": 4,
+    "label": "Play HyperFrames：4 秒电影感 Logo 退场"
+  },
+  {
+    "title": "HyperFrames: $0 → $10K 金钱计数器炫动短片 (9:16)",
+    "src": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/apple-money-count.mp4",
+    "duration": null,
+    "ready": 0,
+    "label": "Play HyperFrames: $0 → $10K 金钱计数器炫动短片 (9:16)"
+  },
+  {
+    "title": "HyperFrames: 5 秒极简产品揭幕",
+    "src": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/logo-outro.mp4",
+    "duration": 6,
+    "ready": 4,
+    "label": "Play HyperFrames: 5 秒极简产品揭幕"
+  },
+  {
+    "title": "HyperFrames: 30 秒 SaaS 产品宣传片（Linear 风格）",
+    "src": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/app-showcase.mp4",
+    "duration": 5.5,
+    "ready": 4,
+    "label": "Play HyperFrames: 30 秒 SaaS 产品宣传片（Linear 风格）"
+  },
+  {
+    "title": "HyperFrames: 9:16 社交卡片叠加组合（X · Reddit · Spotify · Instagram）",
+    "src": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/instagram-follow.mp4",
+    "duration": null,
+    "ready": 0,
+    "label": "Play HyperFrames: 9:16 社交卡片叠加组合（X · Reddit · Spotify · Instagram）"
+  },
+  {
+    "title": "HyperFrames: 9:16 TikTok 卡拉OK字幕口播短视频",
+    "src": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/tiktok-follow.mp4",
+    "duration": null,
+    "ready": 0,
+    "label": "Play HyperFrames: 9:16 TikTok 卡拉OK字幕口播短视频"
+  },
+  {
+    "title": "HyperFrames: 网站转视频流水线（15 秒营销剪辑）",
+    "src": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/ui-3d-reveal.mp4",
+    "duration": null,
+    "ready": 0,
+    "label": "Play HyperFrames: 网站转视频流水线（15 秒营销剪辑）"
+  },
+  {
+    "title": "HyperFrames：动态条形图竞赛（纽约时报风格）",
+    "src": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/data-chart.mp4",
+    "duration": 15
+  }
+]

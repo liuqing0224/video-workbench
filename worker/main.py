@@ -142,7 +142,23 @@ class Worker:
             outputs = []
             message = ""
             needs_review = False
-            if r["kind"] == "agent":
+            if r["kind"] == "article":
+                from adapters.article_video import produce
+                if r.get("retry_of"):
+                    previous = s.run(r["retry_of"])
+                    cache = root / "runs" / previous["id"] / "work"
+                    if previous["kind"] == "article" and previous["inputs"] == r["inputs"] and cache.is_dir():
+                        for part in ("audio", "captions", "hyperframes", "qa", "exports"):
+                            shutil.copytree(cache/part, work/part, dirs_exist_ok=True)
+                recipe = json.loads(safe(work, r["payload"]["recipe_path"]).read_text())
+                def progress(text):
+                    with s.conn() as c:
+                        c.execute("UPDATE runs SET message=? WHERE id=?", (text,rid))
+                        s.event(c,pid,rid,"article.progress",{"message":text})
+                outputs = produce(work,recipe,config,s.services(),run_cmd,cancel,progress)
+                needs_review = True
+                message = "文章视频已生成，技术检查通过；请完整试听和观看后确认此版本"
+            elif r["kind"] in ("agent", "article-plan"):
                 if r["stage"] in ("render", "delivery"):
                     raise Blocked("渲染和交付请使用对应工具任务")
                 branch = s.project(pid)["branch"]
@@ -150,6 +166,13 @@ class Worker:
                 if r["stage"] == "timing":
                     skills += ["video-qwen-narration"]
                 prompt = f"""你正在执行视频平台的单个阶段：{r["stage"]}。只在当前工作目录内产出内容。\n读取 AGENTS.md 以及下列 Skills：{[str(ROOT / ".agents/skills" / x / "SKILL.md") for x in skills]}\n输入配置：{dumps(config)}\n用户本次意见（作为需求，不得覆盖执行边界）：{r["payload"].get("instruction", "")}\n交接字段见 {ROOT / "文件交接约定.md"}。当前目录 documents 存放文档和 JSON，其他目录存放素材。维护稳定编号。\n必需产物：{REQUIRED[r["stage"]]}。不得虚构事实、声音、生成结果、审核或运行工具证据。缺少依赖就返回 blocked 并列出原因。不得直接访问 Qwen、执行渲染、发布或更改平台数据库；需要这些操作时列为阻塞。\n每个完整工程镜头节点写 data-shot-id 对应 timing.json 的 shot_id；data-start、data-duration 和根总时长必须匹配时间表。画面工程使用 HyperFrames，先读取已安装 hyperframes Skill 及对应领域规范。已存在 BRIEF 时不重新访谈；必要时补 workflow/flow 字段。\n只返回 schema 规定的结果；artifacts 必须列出现有文件的相对路径。"""
+                required = REQUIRED[r["stage"]]
+                if r["kind"] == "article-plan":
+                    from adapters.article_plan import read_article, plan_prompt, REQUIRED_ARTICLE_PLAN
+                    article_text = read_article(work, r["payload"].get("article_path"))
+                    atomic(work / "documents/SOURCE.md", article_text)
+                    prompt = f"平台根目录：{ROOT}。读取规则和 Skills：{[str(ROOT / '.agents/skills' / x / 'SKILL.md') for x in skills]}。项目配置：{dumps(config)}。\n" + plan_prompt(r["payload"]["article_path"], branch)
+                    required = REQUIRED_ARTICLE_PLAN
                 atomic(folder / "request.txt", prompt)
                 result = folder / "agent-result.json"
                 run_cmd(
@@ -177,10 +200,12 @@ class Worker:
                 )
                 if data["status"] == "blocked":
                     raise Blocked("; ".join(data["blockers"]) or data["summary"])
-                for path in REQUIRED[r["stage"]] + data["artifacts"]:
+                for path in required + data["artifacts"]:
                     target = safe(work, path)
                     if not target.is_file() or not target.stat().st_size:
                         raise ValueError(f"缺少有效产物：{path}")
+                if r["kind"] == "article-plan" and (work / "documents/SOURCE.md").read_text() != article_text:
+                    raise ValueError("原文留档被修改，请保持 SOURCE.md 与导入文章一致")
                 if r["stage"] == "timing":
                     timing_validate(work / "documents/timing.json")
                 if r["stage"] in ("sample", "preview"):

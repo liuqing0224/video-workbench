@@ -1,3 +1,6 @@
+import { AudioPlayer } from "./AudioPlayer";
+import { CodexLog } from "./CodexLog";
+import { parseCodexProgress, parseCodexLog, mergeCodexProgress, type CodexActivity } from "./codexProgress";
 import { ProjectRequestGuard } from "./projectRequests";
 import React, { useEffect, useState, useRef } from "react";
 import { createRoot } from "react-dom/client";
@@ -41,6 +44,7 @@ type Run = {
   stale: boolean;
   message: string;
   created: number;
+  heartbeat?: number;
 };
 type Artifact = { id: string; path: string; sha256: string; run_id: string | null; role?: string; available?: boolean; version?: string };
 type Doc = { path: string; content: string; revision: string | null };
@@ -64,6 +68,16 @@ const labels = [
   "渲染验收",
   "交付复盘",
 ];
+const flowSteps = [
+  {title:"内容方向", stages:["brief","content"], description:"从文章提炼受众、主题与证据，改写标题、开场和口播，再确认内容方向。"},
+  {title:"案例与分镜", stages:["storyboard"], description:"选择已有案例，把讲解逻辑、配色、镜头状态和转场落实到分镜。"},
+  {title:"关键小样", stages:["sample"], description:"先制作最难的一段，检查实际画面、节奏与表达，再扩展整片。"},
+  {title:"声音与字幕", stages:["timing"], description:"Qwen 试音与正式声音、字幕校正、统一时间；镜头跟随真实声音和阅读时间。"},
+  {title:"整片预览", stages:["preview"], description:"观看完整内容、声画同步和连贯性，确认具体预览版本。"},
+  {title:"验收交付", stages:["render","delivery"], description:"渲染最终文件、检查编码与响度、绑定哈希，再打包交付并记录复盘。"},
+];
+const documentNames: Record<string,string> = {"ARTICLE-ANALYSIS.md":"文章分析与选题", "SCRIPT.md":"标题与口播脚本", "STORYBOARD.md":"镜头分镜", "REFERENCES.md":"案例参考", "BRIEF.md":"受众与内容目标", "PRODUCTION-PLAN.md":"后续制作计划", "DESIGN.md":"视觉规范"};
+const flowLabel = (id:string) => flowSteps.find(f=>f.stages.includes(id))?.title ?? id;
 const states: Record<string, string> = {
   queued: "排队中",
   running: "制作中",
@@ -108,6 +122,8 @@ function App() {
     [notice, setNotice] = useState(""),
     [busy, setBusy] = useState(false),
     [newOpen, setNewOpen] = useState(false),
+    [sourceFile, setSourceFile] = useState<File | null>(null),
+    [importError, setImportError] = useState(""),
     [name, setName] = useState(""),
     [branch, setBranch] = useState("marketing"),
     [audioMode, setAudioMode] = useState("qwen"),
@@ -130,6 +146,7 @@ function App() {
   const video = useRef<HTMLVideoElement>(null);
   const requests = useRef(new ProjectRequestGuard());
   const eventCursors = useRef<Record<string, string>>({});
+  const initialStageProject = useRef<string | null>(null);
   async function act(fn: () => Promise<any>) {
     setBusy(true);
     setError("");
@@ -154,6 +171,12 @@ function App() {
       if (!accept()) return;
       setProject(p);
       setFiles(nextFiles);
+      if (initialStageProject.current === pid) {
+        initialStageProject.current = null;
+        const pending = p.runs?.find((r:Run)=>["running","queued","awaiting_review"].includes(r.status) && !r.stale) ?? p.runs?.[0];
+        if (pending) setStage(pending.stage);
+      }
+      return p as Project;
     }
   }
   useEffect(() => {
@@ -182,6 +205,22 @@ function App() {
   }, [project?.id]);
   const runs = project?.runs ?? [],
     active = runs.find((r) => ["queued", "running"].includes(r.status));
+  const [clock, setClock] = useState(Date.now());
+  useEffect(() => {
+    if (!active || !project) return;
+    const pid = project.id;
+    let stopped = false;
+    let timer: ReturnType<typeof setTimeout>;
+    const poll = async () => {
+      setClock(Date.now());
+      try { if (requests.current.projectId === pid) await refresh(pid); } catch { /* SSE and next poll can recover */ }
+      if (!stopped) timer = setTimeout(poll, 5000);
+    };
+    timer = setTimeout(poll, 5000);
+    return () => { stopped = true; clearTimeout(timer); };
+  }, [project?.id, active?.id]);
+  const activeMinutes = active ? Math.floor(Math.max(0, clock / 1000 - active.created) / 60) : 0;
+  const activeSeconds = active ? Math.floor(Math.max(0, clock / 1000 - active.created) % 60) : 0;
   const artifacts = project?.artifacts ?? [],
     media = artifacts.filter(a => a.available !== false)
       .sort((a, b) => Number(!!b.run_id) - Number(!!a.run_id))
@@ -191,8 +230,46 @@ function App() {
     media.find((a) => a.id === selected) ??
     media.find((a) => /\.(mp4|webm)$/.test(a.path)) ??
     media[0];
-  const latest = runs.find((r) => r.stage === stage);
+  const stageRuns = runs.filter(r=>!["tts","transcribe"].includes(r.kind));
+  const latest = stageRuns.find((r) => r.stage === stage);
+  const progressRun = active ?? latest;
+  const [progress, setProgress] = useState<{runId:string; entries:CodexActivity[]; summary:CodexActivity[]; checked:number; error:boolean}>({runId:"", entries:[], summary:[], checked:0, error:false});
+  useEffect(() => {
+    if (!project || !progressRun || tab !== "work" || !["agent","article-plan"].includes(progressRun.kind)) return;
+    const pid = project.id, rid = progressRun.id;
+    let stopped = false;
+    let timer: ReturnType<typeof setTimeout>;
+    const update = async () => {
+      try {
+        const data = await api(`/runs/${rid}/logs`);
+        if (!stopped && requests.current.projectId === pid) setProgress(p=>({runId:rid,entries:mergeCodexProgress(p.runId===rid?p.entries:[],parseCodexLog(data["codex.jsonl"] ?? "")),summary:parseCodexProgress(data["codex.jsonl"] ?? "").slice(-6),checked:Date.now(),error:false}));
+      } catch {
+        if (!stopped && requests.current.projectId === pid) setProgress(p=>({runId:rid,entries:p.runId===rid?p.entries:[],summary:p.runId===rid?p.summary:[],checked:p.checked,error:true}));
+      }
+      if (!stopped && ["running","queued"].includes(progressRun.status)) timer = setTimeout(update, 3000);
+    };
+    update();
+    return () => { stopped = true; clearTimeout(timer); };
+  }, [project?.id, progressRun?.id, progressRun?.status, tab]);
+  const activities = progressRun?.id === progress.runId ? progress.entries : [];
+  const currentFlow = flowSteps.find(f=>f.stages.includes(stage))!;
+  const flowIndex = flowSteps.indexOf(currentFlow);
+  function flowRun(ids:string[]) {
+    // Content planning from an imported article already includes the brief.
+    return [...ids].reverse().map(id=>stageRuns.find(r=>r.stage===id)).find(Boolean);
+  }
+  function selectFlow(index:number) {
+    const ids=flowSteps[index].stages;
+    const last=flowRun(ids);
+    const next=last && last.status==="succeeded" && !last.stale ? ids[ids.indexOf(last.stage)+1] : undefined;
+    setStage(next ?? last?.stage ?? ids[0]);
+  }
   const waiting = runs.find((r) => r.status === "awaiting_review" && !r.stale);
+  const importAttempt = useRef<{project: Project | null; path: string; key: string}>({project:null,path:"",key:""});
+  function openIntake() {
+    importAttempt.current = {project:null,path:"",key:crypto.randomUUID()};
+    setSourceFile(null); setImportError(""); setName(""); setBrief(""); setNewOpen(true);
+  }
   async function start(
     kind = "agent",
     payload: Record<string, any> = { instruction },
@@ -210,8 +287,10 @@ function App() {
   async function pick(p: Project) {
     if (dirty && !confirm("当前文档有未保存内容，放弃修改？")) return;
     requests.current.select(p.id);
+    initialStageProject.current = p.id;
     setProject(p);
     setFiles([]);
+    setLogs({});
     setDoc(null);
     setDirty(false);
     setSelected("");
@@ -246,7 +325,7 @@ function App() {
         </a>
         <div className="side-heading">
           工作空间
-          <button aria-label="新建项目" onClick={() => setNewOpen(true)}>
+          <button aria-label="新建项目" onClick={openIntake}>
             <Plus size={17} />
           </button>
         </div>
@@ -295,8 +374,8 @@ function App() {
           <div className="breadcrumb">
             工作空间 <ChevronRight size={14} /> {project?.name ?? "所有项目"}
           </div>
-          <button className="light" onClick={() => setNewOpen(true)}>
-            <Plus size={16} /> 新建视频
+          <button className="light" onClick={openIntake}>
+            <Plus size={16} /> 上传文档 / 新建视频
           </button>
         </header>
         <div className="page">
@@ -408,8 +487,8 @@ function App() {
                     <br />
                     在关键节点确认，让 Codex 接着完成制作。
                   </p>
-                  <button className="primary" onClick={() => setNewOpen(true)}>
-                    创建第一个项目 <ArrowUpRight size={17} />
+                  <button className="primary" onClick={openIntake}>
+                    上传文档并解析 <ArrowUpRight size={17} />
                   </button>
                 </div>
                 <div className="process-art">
@@ -438,7 +517,7 @@ function App() {
               <div className="intro-row">
                 <div>
                   <b>01 / 公共流程</b>
-                  <p>八个阶段，连接资料、声音与画面。</p>
+                  <p>六个步骤，连接内容、案例、声音与交付。</p>
                 </div>
                 <div>
                   <b>02 / 内容分支</b>
@@ -474,65 +553,41 @@ function App() {
                 <div className="work-grid">
                   <section className="panel stages">
                     <h2>制作流程</h2>
-                    {stages.map((id, i) => {
-                      const r = runs.find((x) => x.stage === id);
-                      const automated = project.automation_events?.find((e) => e.data.stage === id)?.data;
-                      return (
-                        <button
-                          key={id}
-                          className={
-                            "stage " + (stage === id ? "selected" : "")
-                          }
-                          onClick={() => setStage(id)}
-                        >
-                          <span className="stage-num">
-                            {r?.status === "succeeded" && !r.stale ? (
-                              <Check size={15} />
-                            ) : (
-                              String(i + 1).padStart(2, "0")
-                            )}
-                          </span>
-                          <span>
-                            {labels[i]}
-                            <small>
-                              {r
-                                ? r.stale
-                                  ? "输入已修改"
-                                  : states[r.status]
-                                : automated
-                                  ? automated.status === "completed" ? "自动制作完成 · 未人工确认" : automated.status === "running" ? "自动制作中" : "自动制作需处理"
-                                  : "尚未开始"}
-                            </small>
-                          </span>
-                          {stage === id && <ChevronRight size={16} />}
-                        </button>
-                      );
+                    {flowSteps.map((flow, i) => {
+                      const r = flowRun(flow.stages);
+                      const automated = project.automation_events?.find(e=>flow.stages.includes(e.data.stage))?.data;
+                      const complete = r?.status === "succeeded" && !r.stale && r.stage === flow.stages.at(-1);
+                      const selected = flow.stages.includes(stage);
+                      return <button key={flow.title} className={"stage " + (selected ? "selected" : "")} onClick={()=>selectFlow(i)}>
+                        <span className="stage-num">{complete ? <Check size={15}/> : String(i+1).padStart(2,"0")}</span>
+                        <span>{flow.title}<small>{r ? r.stale ? "输入已修改" : complete ? "已完成" : r.status==="succeeded" ? "继续下一项" : states[r.status] : automated ? "已有自动制作记录 · 待复核" : "尚未开始"}</small></span>
+                        {selected && <ChevronRight size={16}/>}
+                      </button>;
                     })}
                   </section>
                   <section className="panel task">
                     <div className="section-title">
-                      <h2>{labels[stages.indexOf(stage)]}</h2>
+                      <div><span className="step-kicker">第 {flowIndex+1} 步 / 共 6 步</span><h2>{currentFlow.title}</h2></div>
                       {latest && badge(latest)}
                     </div>
+                    <div className="next-action">
+                      <strong>{active ? (active.status === "queued" ? "等待后台接手" : active.kind === "article-plan" ? "正在拆解文章，生成内容方案" : `正在处理：${flowLabel(active.stage)}`) : latest?.status === "awaiting_review" && !latest.stale ? "方案已准备好，请先看一遍" : latest?.stale ? "内容有变化，需要重新检查" : latest?.status === "succeeded" ? "这项已完成，可以继续了" : "从这里开始"}</strong>
+                      <p>{active ? `提交后已等待 ${activeMinutes} 分 ${activeSeconds} 秒。${active.status === "queued" ? "等待本机 Worker 接手。" : active.kind === "article-plan" ? "正在执行文章分析、案例参考与脚本分镜任务，此时尚未生成视频。" : "任务执行中，完成后会提示下一步。"}${active.heartbeat && clock / 1000 - active.heartbeat > 30 ? "后台心跳超过 30 秒未更新，请查看日志。" : ""}` : latest?.status === "awaiting_review" && !latest.stale ? "重点看主题是否准确、表达是否符合你的想法。确认后再进入下一步。" : "按下面的提示操作即可。额外要求可以不填，文件和记录会自动保留。"}</p>
+                    </div>
+                    {progressRun && ["agent","article-plan"].includes(progressRun.kind) && <CodexLog key={progressRun.id} runId={progressRun.id} entries={activities} checked={progress.runId===progressRun.id?progress.checked:0} running={["queued","running"].includes(progressRun.status)} error={progress.runId===progressRun.id && progress.error}/>}
                     {project.config.execution_mode === "delegated_automation" && (
                       <p className="muted">本项目通过授权自动化脚本制作。阶段记录与产物可供复核；自动检查不等于人工试听、预览确认或学习效果验证。</p>
                     )}
-                    <p className="muted">
-                      {
-                        [
-                          "明确观众、结果与证据，把未知项留在简报里。",
-                          "把一个核心目标拆成脚本，确认后再设计画面。",
-                          "确定每镜的焦点、变化与阅读时间。",
-                          "先验证最容易返工的一段。",
-                          "试听正式旁白，校正字幕，再锁定时间。",
-                          "检查完整内容、节奏和画幅，确认当前版本。",
-                          "对最终编码文件执行技术分析与抽帧。",
-                          "将工程、素材和验收记录打包，保留可编辑版本。",
-                        ][stages.indexOf(stage)]
-                      }
-                    </p>
+                    <p className="muted">{currentFlow.description}</p>
+                    <details className="advanced"><summary>更多任务选项</summary>
+                    {currentFlow.stages.length > 1 && <div className="actions" aria-label="步骤内任务">
+                      {currentFlow.stages.map(id=><button key={id} className={stage===id ? "selected" : ""} aria-pressed={stage===id} onClick={()=>setStage(id)}>{labels[stages.indexOf(id)]}</button>)}
+                    </div>}
+                    </details>
+                    {stage === "timing" && <button onClick={()=>setTab("audio")}>打开声音与字幕</button>}
+                    <details className="advanced" open={!latest || latest.stale || !["succeeded","awaiting_review"].includes(latest.status)} key={stage+":"+latest?.status}><summary>{latest && ["succeeded","awaiting_review"].includes(latest.status) ? "补充要求或重新制作" : "制作要求与操作"}</summary>
                     <label>
-                      本次制作要求
+                      想调整什么？（可选）
                       <textarea
                         value={instruction}
                         onChange={(e) => setInstruction(e.target.value)}
@@ -560,7 +615,7 @@ function App() {
                         ) : (
                           <Play size={16} />
                         )}
-                        开始此阶段
+                        {stage === "brief" ? "整理目标与证据" : stage === "content" ? "生成内容方案" : stage === "storyboard" ? "生成案例与分镜" : stage === "sample" ? "制作关键小样" : stage === "timing" ? "校正字幕与时间" : stage === "preview" ? "生成整片预览" : stage === "render" ? "渲染并验收" : "打包交付"}
                       </button>
                       {active && (
                         <button
@@ -576,12 +631,17 @@ function App() {
                         </button>
                       )}
                     </div>
+                    </details>
+                    {latest?.status === "awaiting_review" && !latest.stale && <button className="primary next-button" onClick={()=>setTab("preview")}>查看并确认{currentFlow.title}</button>}
+                    {latest?.status === "succeeded" && !latest.stale && <button className="primary next-button" onClick={()=>{
+                      const next=currentFlow.stages[currentFlow.stages.indexOf(stage)+1];
+                      if(next) setStage(next); else if(flowIndex<flowSteps.length-1) selectFlow(flowIndex+1); else setTab("delivery");
+                    }}>{stage==="render" ? "继续打包交付" : stage==="brief" ? "继续内容方案" : flowIndex<flowSteps.length-1 ? `下一步：${flowSteps[flowIndex+1].title}` : "查看交付文件"}</button>}
                     {latest && (
-                      <div className="run-detail">
-                        <h3>最近一次运行</h3>
+                      <details className="run-detail"><summary>任务记录与问题排查</summary>
                         <p>
                           {latest.message ||
-                            "任务已进入队列，由本机 Worker 执行。"}
+                            (latest.status === "queued" ? "任务已进入队列，等待本机 Worker 接手。" : latest.status === "running" ? "后台正在执行，可展开运行日志查看实际记录。" : "暂无补充说明。")}
                         </p>
                         <div className="actions">
                           <button
@@ -609,7 +669,7 @@ function App() {
                             </button>
                           )}
                         </div>
-                      </div>
+                      </details>
                     )}
                     {Object.entries(logs).map(([name, text]) => (
                       <details key={name}>
@@ -619,33 +679,13 @@ function App() {
                     ))}
                   </section>
                   <aside className="panel guide">
-                    <h2>本阶段产物</h2>
-                    <p>
-                      文档、声音和预览会保留在运行记录中。确认只对当前版本有效。
-                    </p>
-                    {artifacts
-                      .filter((a) => a.run_id === latest?.id)
-                      .slice(0, 8)
-                      .map((a) => (
-                        <a
-                          className="file-item"
-                          key={a.id}
-                          href={`/api/artifacts/${a.id}/file`}
-                        >
-                          <FileText size={14} />
-                          {a.path.split("/").pop()}
-                        </a>
-                      ))}
-                    {waiting && (
-                      <div className="review-callout">
-                        <MessageSquare size={20} />
-                        <h3>有一版等待确认</h3>
-                        <p>{labels[stages.indexOf(waiting.stage)]}</p>
-                        <button onClick={() => setTab("preview")}>
-                          查看并确认 <ChevronRight size={15} />
-                        </button>
-                      </div>
-                    )}
+                    <h2>本步成果</h2>
+                    <p>先看中文方案，技术文件按需展开。</p>
+                    {artifacts.filter(a=>a.run_id===latest?.id && documentNames[a.path.split("/").pop()!]).filter((a,i,all)=>all.findIndex(b=>b.path.split("/").pop()===a.path.split("/").pop())===i).map(a=><button className="result-link" key={a.id} onClick={()=>act(async()=>{await loadDoc("documents/"+a.path.split("/").pop());setTab("documents");})}><FileText size={16}/>{documentNames[a.path.split("/").pop()!]}<ChevronRight size={14}/></button>)}
+                    {!latest && <p className="empty-hint">完成这一步后，结果会显示在这里。</p>}
+                    <details className="advanced"><summary>全部文件与版本记录</summary>
+                    {artifacts.filter(a=>a.run_id===latest?.id).map(a=><a className="file-item" key={a.id} href={`/api/artifacts/${a.id}/file`}>{a.path.split("/").pop()}</a>)}
+                    </details>
                   </aside>
                 </div>
               )}
@@ -857,7 +897,7 @@ function App() {
                       .map((a) => (
                         <div key={a.id} className="audio-player">
                           <small>{a.path.split("/").pop()}</small>
-                          <audio controls src={`/api/artifacts/${a.id}/file`} />
+                          <AudioPlayer src={`/api/artifacts/${a.id}/file`} />
                         </div>
                       ))}
                   </section>
@@ -867,8 +907,8 @@ function App() {
                 <div className="preview-grid">
                   <section className="panel">
                     <div className="section-title">
-                      <h2>版本预览</h2>
-                      <select
+                      <h2>{current ? "版本预览" : "内容方案"}</h2>
+                      {!!media.length && <select
                         aria-label="预览版本"
                         value={current?.id ?? ""}
                         onChange={(e) => setSelected(e.target.value)}
@@ -879,13 +919,15 @@ function App() {
                             {a.sha256.slice(0, 6)}
                           </option>
                         ))}
-                      </select>
+                      </select>}
                     </div>
-                    <div className="player">
+                    <div className={"player" + (!current ? " document-preview" : "")}>
                       {!current ? (
                         <div className="empty">
-                          <Play size={30} />
-                          <p>完成关键小样后，在这里查看画面。</p>
+                          <FileText size={30} />
+                          <h3>{waiting?.stage === "content" ? "先看内容方案" : "还没有视频预览"}</h3>
+                          <p>{waiting?.stage === "content" ? "这一步确认选题和口播，之后再制作画面与声音。" : "完成关键小样后，这里会出现可播放的视频。"}</p>
+                          {waiting?.stage === "content" && <button onClick={()=>act(async()=>{await loadDoc("documents/SCRIPT.md");setTab("documents");})}>阅读标题与口播脚本</button>}
                         </div>
                       ) : /\.(mp4|webm)$/.test(current.path) ? (
                         <VideoPlayer
@@ -896,10 +938,7 @@ function App() {
                       ) : /\.(png|jpg)$/.test(current.path) ? (
                         <img src={`/api/artifacts/${current.id}/file`} />
                       ) : (
-                        <audio
-                          controls
-                          src={`/api/artifacts/${current.id}/file`}
-                        />
+                        <AudioPlayer key={current.id} src={`/api/artifacts/${current.id}/file`} />
                       )}
                     </div>
                     <label>
@@ -910,8 +949,8 @@ function App() {
                         placeholder="指出具体段落、时间或需要调整的内容。"
                       />
                     </label>
-                    <button
-                      disabled={!current || !note.trim()}
+                    {current && <button
+                      disabled={!note.trim()}
                       onClick={() =>
                         act(async () => {
                           await api(`/projects/${project.id}/comments`, {
@@ -926,7 +965,7 @@ function App() {
                       }
                     >
                       记录当前时间点意见
-                    </button>
+                    </button>}
                     {project.comments?.map((c) => (
                       <p className="comment" key={c.id}>
                         {c.at_s.toFixed(1)}s · {c.note}
@@ -938,9 +977,10 @@ function App() {
                     {waiting ? (
                       <>
                         <span className="badge awaiting_review">
-                          {labels[stages.indexOf(waiting.stage)]} · 待确认
+                          {flowLabel(waiting.stage)} · 待确认
                         </span>
                         <p>{waiting.message}</p>
+                        <details className="advanced"><summary>查看本版本全部产物</summary>
                         {artifacts
                           .filter((a) => a.run_id === waiting.id)
                           .map((a) => (
@@ -952,6 +992,7 @@ function App() {
                               {a.path.split("/").pop()}
                             </a>
                           ))}
+                        </details>
                         <p className="hint">
                           请先检查该运行的产物。确认绑定这一次运行；其他版本的播放不代表它已通过。
                         </p>
@@ -998,7 +1039,7 @@ function App() {
               {tab === "delivery" && (
                 <div className="two-cols">
                   <section className="panel">
-                    <h2>技术目标与交付配置</h2>
+                    <details className="advanced"><summary>高级设置：技术目标与交付配置</summary>
                     <p className="muted">
                       保留实际画幅、帧率、编码与响度目标。未配置的检查不会自动通过。
                     </p>
@@ -1036,7 +1077,7 @@ function App() {
                       }
                     >
                       保存项目配置
-                    </button>
+                    </button></details>
                   </section>
                   <section className="panel">
                     <h2>交付文件</h2>
@@ -1103,7 +1144,15 @@ function App() {
             onSubmit={(e) => {
               e.preventDefault();
               act(async () => {
-                const p = await api("/projects", {
+                setImportError("");
+                try {
+                if (sourceFile) {
+                  if (!/\.(md|txt)$/i.test(sourceFile.name)) throw Error("目前支持 Markdown 或 TXT 文档");
+                  if (sourceFile.size > 500000) throw Error("文档超过500KB，请拆成独立主题");
+                  const text = new TextDecoder("utf-8", {fatal:true}).decode(await sourceFile.arrayBuffer());
+                  if (!text.trim() || text.includes("\0")) throw Error("文档内容为空或不是有效文本");
+                }
+                const p = importAttempt.current.project ?? await api("/projects", {
                   name,
                   branch,
                   config: {
@@ -1120,19 +1169,45 @@ function App() {
                     },
                   },
                 });
-                setNewOpen(false);
-                setName("");
-                setBrief("");
+                importAttempt.current.project = p;
+                if (sourceFile) {
+                  if (!importAttempt.current.path) {
+                    const data = new FormData(); data.append("file", sourceFile);
+                    const uploaded = await api(`/projects/${p.id}/assets`, data);
+                    importAttempt.current.path = uploaded.path;
+                  }
+                  await api(`/projects/${p.id}/runs`, {
+                    stage:"content", kind:"article-plan",
+                    idempotency_key:importAttempt.current.key,
+                    payload:{article_path:importAttempt.current.path},
+                  });
+                }
                 await pick(p);
+                if(sourceFile) {setStage("content");setNotice("文档已导入，正在解析并整理视频制作方案。");}
+                setNewOpen(false); setName(""); setBrief(""); setSourceFile(null);
+                } catch (err) { setImportError(err instanceof Error ? err.message : String(err)); }
+
               });
             }}
           >
             <div className="section-title">
-              <h2>开始一条新视频</h2>
-              <button type="button" onClick={() => setNewOpen(false)}>
+              <h2>上传文档，开始制作</h2>
+              <button type="button" disabled={busy} onClick={() => setNewOpen(false)}>
                 关闭
               </button>
             </div>
+            <p className="hint">上传文章后，自动整理选题、口播、案例参考与分镜。也可以不上传，先创建空白项目。</p>
+            {importError && <div role="alert" className="alert">{importError}</div>}
+            <label className="document-intake">
+              上传文档
+              <input type="file" aria-label="上传并解析文档" accept=".md,.txt" disabled={busy || !!importAttempt.current.project} onChange={e=>{
+                const file=e.target.files?.[0] ?? null;
+                setSourceFile(file); setImportError("");
+                if(file && !name.trim()) setName(file.name.replace(/\.[^.]+$/, ""));
+              }} />
+              <small>{sourceFile ? `已选择：${sourceFile.name}` : "支持 Markdown / TXT，UTF-8 编码，最大 500KB"}</small>
+            </label>
+            <fieldset disabled={busy || !!importAttempt.current.project} className="intake-fields">
             <label>
               项目名称
               <input
@@ -1184,8 +1259,9 @@ function App() {
                 placeholder="给谁看？希望观众看完做什么？有哪些资料和素材？"
               />
             </label>
+            </fieldset>
             <button className="primary" disabled={busy || !name.trim()}>
-              创建项目 <ArrowUpRight size={16} />
+              {busy ? "正在处理…" : sourceFile ? "上传并解析文档" : "创建空白项目"} <ArrowUpRight size={16} />
             </button>
             <p className="hint">创建后可以继续补充简报、画幅和声音配置。</p>
           </form>

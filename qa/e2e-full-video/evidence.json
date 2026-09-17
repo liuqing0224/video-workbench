@@ -1,0 +1,285 @@
+{
+  "project_id": "c96ef29387e84eb7809374b6d8c541be",
+  "browser": "Codex in-app tab 4 (tab 6 native audio crash preserved in report)",
+  "downloads": {
+    "mp4_download_sha256": "281b03e1214aa25dcd01bb6924a36a781882ed592665a0c3310bd925484908d9",
+    "mp4_matches_qa": true,
+    "zip_download_sha256": "3789b9edfb8339b29f1b9142307ff6f46a63c08a0ddd60dd46d344c64c029318",
+    "zip_matches_packaged": true
+  },
+  "runs": [
+    {
+      "id": "312470ad4d2b44f898035bddfc7246ab",
+      "stage": "content",
+      "kind": "article-plan",
+      "status": "succeeded",
+      "message": "用户授权的自动化内容审查：已核对原文与四镜脚本，单一主题、作者归因和旧报告边界正确；同意进入分镜与小样。非用户亲自审阅记录。"
+    },
+    {
+      "id": "750851427ff44e18ab88a0d3d9d8417f",
+      "stage": "storyboard",
+      "kind": "agent",
+      "status": "succeeded",
+      "message": "已补齐四镜像素布局、最低阅读时间与状态转换，统一深墨绿配色及贯穿四镜的“当前版本”对象。"
+    },
+    {
+      "id": "4b254cd51869467faeff4a61e8467744",
+      "stage": "sample",
+      "kind": "agent",
+      "status": "succeeded",
+      "message": "用户授权自动化小样审查：真实播放6秒结束，1920×1080画面可见，回退首帧正常；关系示意、旧报告归属与摘录可读，HyperFrames布局及62项对比度通过。无旁白小样，不代表正式声音试听通过。"
+    },
+    {
+      "id": "02cdfbccc07e41ba9fa1baf186bca75a",
+      "stage": "timing",
+      "kind": "tts",
+      "status": "succeeded",
+      "message": "音频已生成，等待试听；尚未锁定时间"
+    },
+    {
+      "id": "b4a751a63e8941a4b1e28e0bd8d8e647",
+      "stage": "timing",
+      "kind": "transcribe",
+      "status": "succeeded",
+      "message": "转录完成，需人工校正；未生成虚构词级时间"
+    },
+    {
+      "id": "60c18e479ceb47059de91cd7bc3f861b",
+      "stage": "timing",
+      "kind": "tts",
+      "status": "succeeded",
+      "message": "音频已生成，等待试听；尚未锁定时间"
+    },
+    {
+      "id": "8a507c18c606438bb55a872067d4ea54",
+      "stage": "timing",
+      "kind": "transcribe",
+      "status": "succeeded",
+      "message": "转录完成，需人工校正；未生成虚构词级时间"
+    },
+    {
+      "id": "3c14746863734e8a91c0c243229bf09f",
+      "stage": "timing",
+      "kind": "tts",
+      "status": "succeeded",
+      "message": "音频已生成，等待试听；尚未锁定时间"
+    },
+    {
+      "id": "64a0cb2f7cad46529fec4df396d0e9f7",
+      "stage": "timing",
+      "kind": "transcribe",
+      "status": "succeeded",
+      "message": "转录完成，需人工校正；未生成虚构词级时间"
+    },
+    {
+      "id": "e6ce2ccb4ae844bcb898ee8da40a2535",
+      "stage": "timing",
+      "kind": "tts",
+      "status": "succeeded",
+      "message": "音频已生成，等待试听；尚未锁定时间"
+    },
+    {
+      "id": "94cb3744f5344fd997b218776cc40804",
+      "stage": "timing",
+      "kind": "transcribe",
+      "status": "succeeded",
+      "message": "转录完成，需人工校正；未生成虚构词级时间"
+    },
+    {
+      "id": "b37b7305fe8a4a409cb270526ac09113",
+      "stage": "timing",
+      "kind": "agent",
+      "status": "succeeded",
+      "message": "用户授权的 Codex 自动化声音审查：四段及正式31.110375秒旁白已在内置浏览器播放至结束；实测−18.00 LUFS、−3.47 dBTP，字幕依原稿校正并按真实段界定时。未作人耳自然度评价，ASR疑似附加文本未纳入字幕。确认自动化时间交接。"
+    },
+    {
+      "id": "1a17d2e9b5d94fbda87920ab3da5c00c",
+      "stage": "preview",
+      "kind": "agent",
+      "status": "failed",
+      "message": "工具退出码 1，见 hyperframes-check.log"
+    },
+    {
+      "id": "bd18c76db7944f7eb140e6a7d9e8ce1e",
+      "stage": "preview",
+      "kind": "agent",
+      "status": "succeeded",
+      "message": "用户授权的 Codex 自动化预览审查：本次preview.mp4已在内置浏览器从0播放至32.133333秒ended=true，1920×1080；首镜、10秒、17秒及30秒真实画面可见，字幕与四镜内容对应，原文归因和关系示意标记保留，片尾单一核对行动。HyperFrames运行/布局/动效无错误，70/70对比度通过，保留同轨四镜维护性warning。确认进入正式导出；未冒充用户亲自试听。"
+    },
+    {
+      "id": "abbdbe91d6e247499e189d2dc8f8027b",
+      "stage": "render",
+      "kind": "render",
+      "status": "blocked",
+      "message": "QA 未通过或目标未配置，见运行目录 qa/report.json"
+    },
+    {
+      "id": "3e1f16539e7742be9240c32337fb8743",
+      "stage": "render",
+      "kind": "qa",
+      "status": "succeeded",
+      "message": "用户授权的 Codex 自动化最终验收：正式MP4 SHA-256 281b03e1214aa25dcd01bb6924a36a781882ed592665a0c3310bd925484908d9 已在内置浏览器完整播放至32.133333秒ended=true，1920×1080画面可见；新QA的10项技术目标全部通过，30fps/H.264/AAC/48kHz双声道，−18.03LUFS、−3.51dBTP。配置仅补齐QA目标，未改变成片；使用新报告，不沿用旧incomplete报告。内容为原文归因的关系示意及单一版本核对行动。确认该文件进入交付打包。未宣称用户亲自试听或实际营销效果已验证。"
+    },
+    {
+      "id": "49b7806f463741f29f002840dd1bc8af",
+      "stage": "delivery",
+      "kind": "package",
+      "status": "succeeded",
+      "message": "交付包已生成，未发布"
+    }
+  ],
+  "reviews": [
+    {
+      "id": "8a3cc4fc15be491e981746f11750262e",
+      "run_id": "312470ad4d2b44f898035bddfc7246ab",
+      "decision": "approve",
+      "note": "用户授权的自动化内容审查：已核对原文与四镜脚本，单一主题、作者归因和旧报告边界正确；同意进入分镜与小样。非用户亲自审阅记录。",
+      "created": 1789646169.2520971
+    },
+    {
+      "id": "959faa3d08fd4784b8698a0785b435f1",
+      "run_id": "4b254cd51869467faeff4a61e8467744",
+      "decision": "approve",
+      "note": "用户授权自动化小样审查：真实播放6秒结束，1920×1080画面可见，回退首帧正常；关系示意、旧报告归属与摘录可读，HyperFrames布局及62项对比度通过。无旁白小样，不代表正式声音试听通过。",
+      "created": 1789646838.823395
+    },
+    {
+      "id": "22d7c1e8ad1b4dd097dbedf93af1419e",
+      "run_id": "b37b7305fe8a4a409cb270526ac09113",
+      "decision": "approve",
+      "note": "用户授权的 Codex 自动化声音审查：四段及正式31.110375秒旁白已在内置浏览器播放至结束；实测−18.00 LUFS、−3.47 dBTP，字幕依原稿校正并按真实段界定时。未作人耳自然度评价，ASR疑似附加文本未纳入字幕。确认自动化时间交接。",
+      "created": 1789647987.778229
+    },
+    {
+      "id": "c8a96ae389734497a65c8a481d4be32b",
+      "run_id": "bd18c76db7944f7eb140e6a7d9e8ce1e",
+      "decision": "approve",
+      "note": "用户授权的 Codex 自动化预览审查：本次preview.mp4已在内置浏览器从0播放至32.133333秒ended=true，1920×1080；首镜、10秒、17秒及30秒真实画面可见，字幕与四镜内容对应，原文归因和关系示意标记保留，片尾单一核对行动。HyperFrames运行/布局/动效无错误，70/70对比度通过，保留同轨四镜维护性warning。确认进入正式导出；未冒充用户亲自试听。",
+      "created": 1789648604.6697679
+    },
+    {
+      "id": "e465f2ddc4e8406f890df3062b951212",
+      "run_id": "3e1f16539e7742be9240c32337fb8743",
+      "decision": "approve",
+      "note": "用户授权的 Codex 自动化最终验收：正式MP4 SHA-256 281b03e1214aa25dcd01bb6924a36a781882ed592665a0c3310bd925484908d9 已在内置浏览器完整播放至32.133333秒ended=true，1920×1080画面可见；新QA的10项技术目标全部通过，30fps/H.264/AAC/48kHz双声道，−18.03LUFS、−3.51dBTP。配置仅补齐QA目标，未改变成片；使用新报告，不沿用旧incomplete报告。内容为原文归因的关系示意及单一版本核对行动。确认该文件进入交付打包。未宣称用户亲自试听或实际营销效果已验证。",
+      "created": 1789648842.3676748
+    }
+  ],
+  "technical_qa": {
+    "output_path": "/Users/l/Documents/ChatGPT/视频制作工作流/workspace/projects/c96ef29387e84eb7809374b6d8c541be/runs/3e1f16539e7742be9240c32337fb8743/work/exports/abbdbe91d6e247499e189d2dc8f8027b.mp4",
+    "output_sha256": "281b03e1214aa25dcd01bb6924a36a781882ed592665a0c3310bd925484908d9",
+    "tools": {
+      "ffmpeg": "ffmpeg version 7.1.1 Copyright (c) 2000-2025 the FFmpeg developers",
+      "ffprobe": "ffprobe version 7.1.1 Copyright (c) 2007-2025 the FFmpeg developers"
+    },
+    "actual": {
+      "width": 1920,
+      "height": 1080,
+      "fps": 30.0,
+      "duration_s": 32.133333,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "sample_rate": 48000,
+      "channels": 2
+    },
+    "checks": [
+      {
+        "name": "width",
+        "target": 1920,
+        "actual": 1920,
+        "status": "pass"
+      },
+      {
+        "name": "height",
+        "target": 1080,
+        "actual": 1080,
+        "status": "pass"
+      },
+      {
+        "name": "fps",
+        "target": 30,
+        "actual": 30.0,
+        "status": "pass"
+      },
+      {
+        "name": "video_codec",
+        "target": "h264",
+        "actual": "h264",
+        "status": "pass"
+      },
+      {
+        "name": "sample_rate",
+        "target": 48000,
+        "actual": 48000,
+        "status": "pass"
+      },
+      {
+        "name": "audio_codec",
+        "target": "aac",
+        "actual": "aac",
+        "status": "pass"
+      },
+      {
+        "name": "channels",
+        "target": 2,
+        "actual": 2,
+        "status": "pass"
+      },
+      {
+        "name": "duration_s",
+        "target": 32.13333333333333,
+        "actual": 32.133333,
+        "status": "pass"
+      },
+      {
+        "name": "lufs",
+        "target": -18,
+        "actual": -18.03,
+        "status": "pass"
+      },
+      {
+        "name": "true_peak_db",
+        "target": -2,
+        "actual": -3.51,
+        "status": "pass"
+      }
+    ],
+    "loudness": {
+      "input_i": "-18.03",
+      "input_tp": "-3.51",
+      "input_lra": "3.00",
+      "input_thresh": "-28.38",
+      "output_i": "-24.02",
+      "output_tp": "-9.70",
+      "output_lra": "2.40",
+      "output_thresh": "-34.33",
+      "normalization_type": "dynamic",
+      "target_offset": "0.02"
+    },
+    "frames": [
+      {
+        "path": "frame-0.jpg",
+        "at_s": 0,
+        "sha256": "9536e35f2841e0b0c47289217bdd0c11de774545047d9805ac4ebd2047db864f"
+      },
+      {
+        "path": "frame-1.jpg",
+        "at_s": 16.0666665,
+        "sha256": "9eebda2124f53080b90e4a4ddb7f7fdb86b53d0d6e3817d0d978d38063350044"
+      },
+      {
+        "path": "frame-2.jpg",
+        "at_s": 32.09166666666667,
+        "sha256": "e199c17ac7da3b86af5bd6dcda901c7b8bdb4667ca52b51f2302e6acf06e5341"
+      }
+    ],
+    "automated_status": "pass",
+    "human_review": "not_done",
+    "learning_effect": "not_verified"
+  },
+  "limitations": [
+    "No human listening/naturalness assessment",
+    "No marketing conversion validation",
+    "No public publishing"
+  ]
+}

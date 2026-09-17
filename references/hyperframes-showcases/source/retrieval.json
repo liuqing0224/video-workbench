@@ -1,0 +1,112 @@
+[
+  {
+    "name": "app-showcase",
+    "url": "https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry/blocks/app-showcase/registry-item.json",
+    "duration": 5.5,
+    "files": [
+      "app-showcase.html"
+    ],
+    "sha256": {
+      "app-showcase.html": "c7e1b4d8ec2a2c1f70a8ed67a147ba5c4985074eb475d611b2bec6d921b10ade"
+    }
+  },
+  {
+    "name": "data-chart",
+    "url": "https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry/blocks/data-chart/registry-item.json",
+    "duration": 15,
+    "files": [
+      "data-chart.html"
+    ],
+    "sha256": {
+      "data-chart.html": "02ccb24bfa21850d19c2842853256a3c47d5fd25dc746d6b99986bef268bf027"
+    }
+  },
+  {
+    "name": "ui-3d-reveal",
+    "url": "https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry/blocks/ui-3d-reveal/registry-item.json",
+    "duration": 13,
+    "files": [
+      "ui-3d-reveal.html"
+    ],
+    "sha256": {
+      "ui-3d-reveal.html": "fbb3f7960686a1f5932bfd07b105c3029cdd898f113911be662e6bc36892e993"
+    }
+  },
+  {
+    "name": "vfx-liquid-glass",
+    "url": "https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry/blocks/vfx-liquid-glass/registry-item.json",
+    "duration": 20,
+    "files": [
+      "vfx-liquid-glass.html"
+    ],
+    "sha256": {
+      "vfx-liquid-glass.html": "1c3d3eeb6d64c59dd8f7d211792de1b9abd73547c07bf3e79bd59e2a2882fa2f"
+    }
+  },
+  {
+    "name": "vfx-magnetic",
+    "url": "https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry/blocks/vfx-magnetic/registry-item.json",
+    "duration": 15,
+    "files": [
+      "vfx-magnetic.html"
+    ],
+    "sha256": {
+      "vfx-magnetic.html": "5d8cb92132690f681c0acd5ad9c9a326d79fc59e8904eba9e6d1542acd54c1dd"
+    }
+  },
+  {
+    "name": "vfx-portal",
+    "url": "https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry/blocks/vfx-portal/registry-item.json",
+    "duration": 10,
+    "files": [
+      "vfx-portal.html"
+    ],
+    "sha256": {
+      "vfx-portal.html": "3a70718be5486fc7936bf4f2ddbd3addf53533048f2e53dee47b5b8de82c2526"
+    }
+  },
+  {
+    "name": "vfx-text-cursor",
+    "url": "https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry/blocks/vfx-text-cursor/registry-item.json",
+    "duration": 8,
+    "files": [
+      "vfx-text-cursor.html"
+    ],
+    "sha256": {
+      "vfx-text-cursor.html": "71834bda1e5a5a45aa137e5b0eca2b9ed408cb7dc9b47a0dd4008eb7b4cfe235"
+    }
+  },
+  {
+    "name": "nyc-paris-flight",
+    "url": "https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry/blocks/nyc-paris-flight/registry-item.json",
+    "duration": 6,
+    "files": [
+      "nyc-paris-flight.html"
+    ],
+    "sha256": {
+      "nyc-paris-flight.html": "185fdae537f43f6cd3750d38ef23287c1a26c86108ebde9a90bda126acd3fa2c"
+    }
+  },
+  {
+    "name": "apple-money-count",
+    "url": "https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry/blocks/apple-money-count/registry-item.json",
+    "duration": 5,
+    "files": [
+      "apple-money-count.html"
+    ],
+    "sha256": {
+      "apple-money-count.html": "a32f53e1544468860b001f8876d419f680cfc4129c810053e96d6a3b84ad063b"
+    }
+  },
+  {
+    "name": "logo-outro",
+    "url": "https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry/blocks/logo-outro/registry-item.json",
+    "duration": 6,
+    "files": [
+      "logo-outro.html"
+    ],
+    "sha256": {
+      "logo-outro.html": "b3ed1e2dbdbe1f4a36bcf11e8a75f1f7eca7c29e5f75e86628fd8922629364ff"
+    }
+  }
+]

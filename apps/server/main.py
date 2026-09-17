@@ -45,7 +45,7 @@ class RunRequest(BaseModel):
         "render",
         "delivery",
     ]
-    kind: Literal["agent", "tts", "transcribe", "render", "qa", "package"] = "agent"
+    kind: Literal["agent", "tts", "transcribe", "render", "qa", "package", "article", "article-plan"] = "agent"
     idempotency_key: str = Field(min_length=1, max_length=120)
     payload: dict = Field(default_factory=dict)
 
@@ -257,6 +257,8 @@ def create_app(store=None):
             "render": "render",
             "qa": "render",
             "package": "delivery",
+            "article": "render",
+            "article-plan": "content",
         }
         if body.kind in mapping and body.stage != mapping[body.kind]:
             raise ValueError("任务类型与阶段不一致")

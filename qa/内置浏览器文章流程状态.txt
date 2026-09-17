@@ -1,0 +1,38 @@
+Browser tab: 6, Title: "片场 · 视频制作工作台", URL: "http://127.0.0.1:8794/".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 126-127
+~			120 heading 版本预览, Value: 2
+~				121 text 版本预览
+~			122 pop up button (collapsed, settable) Description: 预览版本, Secondary Actions: Expand
+~			123 image
+~			124 text 完成关键小样后，在这里查看画面。
+~			125 container
++				126 text 修改意见
++				127 text entry area (settable) 修改意见
+~			128 button (disabled) 记录当前时间点意见
+~			129 heading 确认当前交接, Value: 2
+~				130 text 确认当前交接
++			131 text 内容设计  · 待确认
++			132 text 已完成教学策划草案，推荐选题“畅销正装，为什么未必适合做获客小样？”，包含九段口播、九镜分镜、独立自检与制作交接。
++			133 link Description: EX01.md, Value: 127.0.0.1:8794/api/artifacts/f95d3f0161e048b3ab896c2f4070516e/file
++			134 link Description: claims-map.json, Value: 127.0.0.1:8794/api/artifacts/2e06e0c0dc2b4ba596ee03a36b833ff0/file
++			135 link Description: assets-manifest.json, Value: 127.0.0.1:8794/api/artifacts/d6ce7e3949fc46409165fa5aa3e49f65/file
++			136 link Description: STORYBOARD.md, Value: 127.0.0.1:8794/api/artifacts/2f86d227f6ef4da89dcc5fd4959bc970/file
++			137 link Description: SOURCE.md, Value: 127.0.0.1:8794/api/artifacts/ddd95ec27930425ea4405177225b9b15/file
++			138 link Description: SCRIPT.md, Value: 127.0.0.1:8794/api/artifacts/98bf9769c97c471abc866de1f5d67808/file
++			139 link Description: REFERENCES.md, Value: 127.0.0.1:8794/api/artifacts/1fc7f4b3ea594da38ae680156c74e54e/file
++			140 link Description: PUBLISH-PACK.md, Value: 127.0.0.1:8794/api/artifacts/d848c467d13a4944a3f566b6ae96de60/file
++			141 link Description: PRODUCTION-PLAN.md, Value: 127.0.0.1:8794/api/artifacts/a1aa7638acff49d6bcabb1e71ee86d08/file
++			142 link Description: PLAN-REVIEW.md, Value: 127.0.0.1:8794/api/artifacts/1ce4e0ac796744d0bc84d7b69df0d7b9/file
++			143 link Description: PLAN-PROVENANCE.json, Value: 127.0.0.1:8794/api/artifacts/3692769e4c844d01b82845604791e3ad/file
++			144 link Description: LESSON-PLAN.md, Value: 127.0.0.1:8794/api/artifacts/a63a0d92af37482880ba876ff3451a6d/file
++			145 link Description: DESIGN.md, Value: 127.0.0.1:8794/api/artifacts/03f5ad57973c42198f584ac0b9bf85b1/file
++			146 link Description: BRIEF.md, Value: 127.0.0.1:8794/api/artifacts/d8271a48adfa4e64a4cc8cf3bba63726/file
++			147 link Description: ARTICLE-ANALYSIS.md, Value: 127.0.0.1:8794/api/artifacts/054f91293ab949e0badb73fc44b1708d/file
++			148 link Description: ANSWER-KEY.md, Value: 127.0.0.1:8794/api/artifacts/37dd8f5b7964413094fe047e5e63fe17/file
++			149 text 请先检查该运行的产物。确认绑定这一次运行；其他版本的播放不代表它已通过。
++			150 button 确认此版本
++				151 image
++				152 text 确认此版本
++			153 button (disabled) 需要修改
+The focused UI element is 55 button 预览与确认

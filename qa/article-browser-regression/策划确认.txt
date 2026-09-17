@@ -1,0 +1,145 @@
+[p1 "片场 · 视频制作工作台" | space "文章流程自动化回归"(108): 1 managed, 0 untracked — p1* "片场 · 视频制作工作台"]
+root
+  container
+    container
+      anchor "片场首页" [ref=1, loc=css:a[aria-label="片场首页"], url=http://127.0.0.1:8794/]
+        svg_root
+        container
+          text "片场"
+          text "视频制作工作台"
+      container
+        text "工作空间"
+        button "新建项目" [ref=2, loc=css:button[aria-label="新建项目"]]
+          svg_root
+      container
+        button [ref=3]
+          svg_root
+          container
+            text "Menza｜文章拆解与自媒体策划"
+            text "教学自媒体"
+        button [ref=4]
+          svg_root
+          container
+            text "Menza｜把客户洞察变成经营行动"
+            text "教学自媒体"
+        button [ref=5]
+          svg_root
+          container
+            text "第二生产线｜AI 设计不能只有效果图"
+            text "教学自媒体"
+        button [ref=6]
+          svg_root
+          container
+            text "片场产品介绍 · 首次试制"
+            text "营销视频"
+        button [ref=7]
+          svg_root
+          container
+            text "片场使用教程 · 首次试制"
+            text "教学自媒体"
+      container
+        button [ref=8]
+          svg_root
+          text "服务设置"
+        text "本机工作空间"
+    container
+      container
+        container
+          text "工作空间"
+          svg_root
+          text "Menza｜文章拆解与自媒体策划"
+        button [ref=9]
+          svg_root
+          text "新建视频"
+      container
+        container
+          container
+            text "VIDEO WORKBENCH"
+            heading
+              text "Menza｜文章拆解与自媒体策划"
+            paragraph
+              text "一个目标、一条时间线，每次交付都有据可查。"
+          text "教学自媒体"
+        container
+          button [ref=11]
+            svg_root
+            text "制作工作台"
+          button [ref=12]
+            svg_root
+            text "内容与素材"
+          button [ref=13]
+            svg_root
+            text "声音与字幕"
+          button [ref=14]
+            svg_root
+            text "预览与确认"
+          button [ref=15]
+            svg_root
+            text "验收与交付"
+        container
+          container
+            container
+              heading
+                text "版本预览"
+              combobox "预览版本" [ref=16, loc=css:select[aria-label="预览版本"]]
+            container
+              svg_root
+              paragraph
+                text "完成关键小样后，在这里查看画面。"
+            container
+              text "修改意见"
+              textbox [ref=17, loc=css:textarea[placeholder="指出具体段落、时间或需要调整的内容。"]]
+                text "指出具体段落、时间或需要调整的内容。"
+            button [ref=18]
+              text "记录当前时间点意见"
+          container
+            heading
+              text "确认当前交接"
+            container
+              text "内容设计"
+              text "· 待确认"
+            paragraph
+              text "已完成教学策划草案，推荐选题“畅销正装，为什么未必适合做获客小样？”，包含九段口播、九镜分镜、独立自检与制作交接。"
+            anchor [ref=19, loc=href:/api/artifacts/f95d3f0161e048b3ab896c2f4070516e/file, url=http://127.0.0.1:8794/api/artifacts/f95d3f0161e048b3ab896c2f4070516e/file]
+              text "EX01.md"
+            anchor [ref=20, loc=href:/api/artifacts/2e06e0c0dc2b4ba596ee03a36b833ff0/file, url=http://127.0.0.1:8794/api/artifacts/2e06e0c0dc2b4ba596ee03a36b833ff0/file]
+              text "claims-map.json"
+            anchor [ref=21, loc=href:/api/artifacts/d6ce7e3949fc46409165fa5aa3e49f65/file, url=http://127.0.0.1:8794/api/artifacts/d6ce7e3949fc46409165fa5aa3e49f65/file]
+              text "assets-manifest.json"
+            anchor [ref=22, loc=href:/api/artifacts/2f86d227f6ef4da89dcc5fd4959bc970/file, url=http://127.0.0.1:8794/api/artifacts/2f86d227f6ef4da89dcc5fd4959bc970/file]
+              text "STORYBOARD.md"
+            anchor [ref=23, loc=href:/api/artifacts/ddd95ec27930425ea4405177225b9b15/file, url=http://127.0.0.1:8794/api/artifacts/ddd95ec27930425ea4405177225b9b15/file]
+              text "SOURCE.md"
+            anchor [ref=24, loc=href:/api/artifacts/98bf9769c97c471abc866de1f5d67808/file, url=http://127.0.0.1:8794/api/artifacts/98bf9769c97c471abc866de1f5d67808/file]
+              text "SCRIPT.md"
+            anchor [ref=25, loc=href:/api/artifacts/1fc7f4b3ea594da38ae680156c74e54e/file, url=http://127.0.0.1:8794/api/artifacts/1fc7f4b3ea594da38ae680156c74e54e/file]
+              text "REFERENCES.md"
+            anchor [ref=26, loc=href:/api/artifacts/d848c467d13a4944a3f566b6ae96de60/file, url=http://127.0.0.1:8794/api/artifacts/d848c467d13a4944a3f566b6ae96de60/file]
+              text "PUBLISH-PACK.md"
+            anchor [ref=27, loc=href:/api/artifacts/a1aa7638acff49d6bcabb1e71ee86d08/file, url=http://127.0.0.1:8794/api/artifacts/a1aa7638acff49d6bcabb1e71ee86d08/file]
+              text "PRODUCTION-PLAN.md"
+            anchor [ref=28, loc=href:/api/artifacts/1ce4e0ac796744d0bc84d7b69df0d7b9/file, url=http://127.0.0.1:8794/api/artifacts/1ce4e0ac796744d0bc84d7b69df0d7b9/file]
+              text "PLAN-REVIEW.md"
+            anchor [ref=29, loc=href:/api/artifacts/3692769e4c844d01b82845604791e3ad/file, url=http://127.0.0.1:8794/api/artifacts/3692769e4c844d01b82845604791e3ad/file]
+              text "PLAN-PROVENANCE.json"
+            anchor [ref=30, loc=href:/api/artifacts/a63a0d92af37482880ba876ff3451a6d/file, url=http://127.0.0.1:8794/api/artifacts/a63a0d92af37482880ba876ff3451a6d/file]
+              text "LESSON-PLAN.md"
+            anchor [ref=31, loc=href:/api/artifacts/03f5ad57973c42198f584ac0b9bf85b1/file, url=http://127.0.0.1:8794/api/artifacts/03f5ad57973c42198f584ac0b9bf85b1/file]
+              text "DESIGN.md"
+            anchor [ref=32, loc=href:/api/artifacts/d8271a48adfa4e64a4cc8cf3bba63726/file, url=http://127.0.0.1:8794/api/artifacts/d8271a48adfa4e64a4cc8cf3bba63726/file]
+              text "BRIEF.md"
+            anchor [ref=33, loc=href:/api/artifacts/054f91293ab949e0badb73fc44b1708d/file, url=http://127.0.0.1:8794/api/artifacts/054f91293ab949e0badb73fc44b1708d/file]
+              text "ARTICLE-ANALYSIS.md"
+            anchor [ref=34, loc=href:/api/artifacts/37dd8f5b7964413094fe047e5e63fe17/file, url=http://127.0.0.1:8794/api/artifacts/37dd8f5b7964413094fe047e5e63fe17/file]
+              text "ANSWER-KEY.md"
+            paragraph
+              text "请先检查该运行的产物。确认绑定这一次运行；其他版本的播放不代表它已通过。"
+            button [ref=35]
+              svg_root
+              text "确认此版本"
+            button [ref=36]
+              text "需要修改"
+      container
+        text "片场 · 本机制作与版本管理"
+        text "公开发布与投放需单独授权"
+  image [ref=37]
