@@ -1,0 +1,42 @@
+{
+  "project_id": "example-marketing",
+  "revision": "draft-v1",
+  "status": "illustrative",
+  "components": [
+    {
+      "component_id": "TEXT01",
+      "purpose": "标题与正文分步呈现",
+      "implementation": null,
+      "status": "planned"
+    }
+  ],
+  "shots": [
+    {
+      "shot_id": "SH01",
+      "component_ids": [
+        "TEXT01"
+      ],
+      "asset_ids": [
+        "A01"
+      ]
+    },
+    {
+      "shot_id": "SH02",
+      "component_ids": [
+        "TEXT01"
+      ],
+      "asset_ids": [
+        "A01"
+      ]
+    },
+    {
+      "shot_id": "SH03",
+      "component_ids": [
+        "TEXT01"
+      ],
+      "asset_ids": [
+        "A01"
+      ]
+    }
+  ]
+}

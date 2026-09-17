@@ -1,0 +1,23 @@
+{
+  "project_id": null,
+  "revision": "draft-v1",
+  "status": "template",
+  "units": "seconds",
+  "fps": null,
+  "total_duration_s": null,
+  "audio_mode": null,
+  "shots": [
+    {
+      "shot_id": "SH01",
+      "segment_id": "SEG01",
+      "start_s": null,
+      "duration_s": null,
+      "min_read_s": null,
+      "asset_ids": [
+        "A01"
+      ]
+    }
+  ],
+  "audio": [],
+  "captions": []
+}

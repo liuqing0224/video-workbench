@@ -1,0 +1,20 @@
+{
+  "project_id": null,
+  "revision": "draft-v1",
+  "status": "template",
+  "steps": [
+    {
+      "step_id": "STEP01",
+      "objective_id": "OBJ01",
+      "shot_ids": [
+        "SH01"
+      ],
+      "start_state": null,
+      "why": null,
+      "action": null,
+      "expected_result": null,
+      "troubleshooting": null,
+      "exercise_id": "EX01"
+    }
+  ]
+}

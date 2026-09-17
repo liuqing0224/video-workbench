@@ -1,0 +1,19 @@
+{
+  "project_id": "example-teaching",
+  "revision": "draft-v1",
+  "status": "not_produced",
+  "inputs_revision": "draft-v1",
+  "tools": {
+    "qwen": null,
+    "alignment": null,
+    "hyperframes": null,
+    "ffmpeg": null
+  },
+  "outputs": [],
+  "qa_records": [],
+  "limitations": [
+    "尚未制作，未确认声音和画面",
+    "示例不代表真实产品事实或已验证学习效果"
+  ],
+  "effect_validation": "not_done"
+}

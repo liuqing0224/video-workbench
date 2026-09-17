@@ -1,0 +1,16 @@
+{
+  "project_id": "example-marketing",
+  "revision": "draft-v1",
+  "status": "illustrative",
+  "assets": [
+    {
+      "asset_id": "A01",
+      "role": "示例文本",
+      "path": "assets/source.md",
+      "source": "人为编写示例",
+      "revision": "draft-v1",
+      "status": "available",
+      "usage_constraints": "不能声称真实产品效果或学习效果"
+    }
+  ]
+}

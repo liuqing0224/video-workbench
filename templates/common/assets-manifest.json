@@ -1,0 +1,16 @@
+{
+  "project_id": null,
+  "revision": "draft-v1",
+  "status": "template",
+  "assets": [
+    {
+      "asset_id": "A01",
+      "role": null,
+      "path": null,
+      "source": null,
+      "revision": null,
+      "status": "planned",
+      "usage_constraints": null
+    }
+  ]
+}

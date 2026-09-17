@@ -1,0 +1,46 @@
+{
+  "project_id": "example-teaching",
+  "revision": "draft-v1",
+  "status": "illustrative",
+  "steps": [
+    {
+      "step_id": "STEP01",
+      "objective_id": "OBJ01",
+      "shot_ids": [
+        "SH01"
+      ],
+      "start_state": "看到“学会做视频”",
+      "why": "模糊目标难以检查",
+      "action": "指出缺失的起点、动作和标准",
+      "expected_result": "识别三项缺失",
+      "troubleshooting": "区分主题名称与学习目标",
+      "exercise_id": "EX01"
+    },
+    {
+      "step_id": "STEP02",
+      "objective_id": "OBJ01",
+      "shot_ids": [
+        "SH02"
+      ],
+      "start_state": "已识别缺失条件",
+      "why": "将目标变成可观察行为",
+      "action": "按起点、动作、标准改写示例",
+      "expected_result": "得到可核对的目标句",
+      "troubleshooting": "不要用“更好”“掌握”代替条件",
+      "exercise_id": "EX01"
+    },
+    {
+      "step_id": "STEP03",
+      "objective_id": "OBJ01",
+      "shot_ids": [
+        "SH03"
+      ],
+      "start_state": "看完改写演示",
+      "why": "检查能否迁移到新题",
+      "action": "暂停并完成 EX01，按评分表核对",
+      "expected_result": "三项各1分，满足3分",
+      "troubleshooting": "根据未得分项补写",
+      "exercise_id": "EX01"
+    }
+  ]
+}

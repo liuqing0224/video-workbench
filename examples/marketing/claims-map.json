@@ -1,0 +1,18 @@
+{
+  "project_id": "example-marketing",
+  "revision": "draft-v1",
+  "status": "illustrative",
+  "claims": [
+    {
+      "claim_id": "C01",
+      "text": "DemoDesk 任务清单概念演示",
+      "kind": "示意",
+      "source": "assets/source.md",
+      "asset_ids": [
+        "A01"
+      ],
+      "verification": "unverified",
+      "public_use": "仅作为明确标注的示例；实际发布须重新核实"
+    }
+  ]
+}

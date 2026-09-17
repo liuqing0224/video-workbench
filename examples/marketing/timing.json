@@ -1,0 +1,43 @@
+{
+  "project_id": "example-marketing",
+  "revision": "draft-v1",
+  "status": "estimated",
+  "units": "seconds",
+  "fps": 30,
+  "total_duration_s": 30,
+  "audio_mode": "local_qwen",
+  "shots": [
+    {
+      "shot_id": "SH01",
+      "segment_id": "SEG01",
+      "start_s": 0,
+      "duration_s": 10,
+      "min_read_s": 4,
+      "asset_ids": [
+        "A01"
+      ]
+    },
+    {
+      "shot_id": "SH02",
+      "segment_id": "SEG02",
+      "start_s": 10,
+      "duration_s": 10,
+      "min_read_s": 4,
+      "asset_ids": [
+        "A01"
+      ]
+    },
+    {
+      "shot_id": "SH03",
+      "segment_id": "SEG03",
+      "start_s": 20,
+      "duration_s": 10,
+      "min_read_s": 4,
+      "asset_ids": [
+        "A01"
+      ]
+    }
+  ],
+  "audio": [],
+  "captions": []
+}

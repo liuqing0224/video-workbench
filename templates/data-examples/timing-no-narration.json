@@ -1,0 +1,29 @@
+{
+  "project_id": "illustrative-silent",
+  "revision": "draft-v1",
+  "status": "estimated",
+  "units": "seconds",
+  "fps": 30,
+  "total_duration_s": 8,
+  "audio_mode": "none",
+  "shots": [
+    {
+      "shot_id": "SH01",
+      "segment_id": "SEG01",
+      "start_s": 0,
+      "duration_s": 5,
+      "min_read_s": 3,
+      "asset_ids": []
+    },
+    {
+      "shot_id": "SH02",
+      "segment_id": "SEG02",
+      "start_s": 5,
+      "duration_s": 3,
+      "min_read_s": 2,
+      "asset_ids": []
+    }
+  ],
+  "audio": [],
+  "captions": []
+}

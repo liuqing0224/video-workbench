@@ -1,0 +1,13 @@
+{
+  "project_id": null,
+  "revision": "draft-v1",
+  "status": "template",
+  "provider": "local_qwen",
+  "model_version": null,
+  "service_reference": null,
+  "voice": null,
+  "parameters": {},
+  "pronunciation": [],
+  "requests": [],
+  "listening_review": "not_done"
+}

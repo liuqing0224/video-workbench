@@ -1,0 +1,32 @@
+{
+  "project_id": "example-teaching",
+  "revision": "draft-v1",
+  "status": "illustrative",
+  "provider": "local_qwen",
+  "model_version": null,
+  "service_reference": null,
+  "voice": null,
+  "parameters": {},
+  "pronunciation": [],
+  "requests": [
+    {
+      "segment_id": "SEG01",
+      "text": "学会做视频太宽泛。先写出学习者已有的条件，以及需要完成的动作。",
+      "output_path": null,
+      "revision": "draft-v1"
+    },
+    {
+      "segment_id": "SEG02",
+      "text": "例如，已有脚本的新手能导出一条视频，并按清单检查字幕和声音。检查目标里是否都有起点、动作和标准。",
+      "output_path": null,
+      "revision": "draft-v1"
+    },
+    {
+      "segment_id": "SEG03",
+      "text": "请暂停视频，把“掌握资料整理”改成可验收目标，再按评分表检查。",
+      "output_path": null,
+      "revision": "draft-v1"
+    }
+  ],
+  "listening_review": "not_done"
+}

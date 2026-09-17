@@ -1,0 +1,98 @@
+{
+  "name": "第二生产线｜AI 设计不能只有效果图",
+  "source": "/Users/l/Documents/ChatGPT/自媒体管理工具/AI这个时代/incoming/2026-09-16-second-production-line/article.md",
+  "branch": "teaching",
+  "segments": [
+    {
+      "id": "SH01",
+      "chapter": "先问一个问题",
+      "title": "漂亮的图，\n就是好方案？",
+      "key": "效果图 ≠ 设计证据",
+      "image": "04-second-production-line.jpg",
+      "text": "一张漂亮的效果图，就能证明改造方案好吗？这次旧厂设计，恰恰是从返工开始的。",
+      "source_section": "导语"
+    },
+    {
+      "id": "SH02",
+      "chapter": "01 / 建立依据",
+      "title": "先补原始图",
+      "key": "体量 · 烟囱 · 仓库 · 河岸",
+      "image": "01-original-site.jpg",
+      "text": "第一步，补齐原始状态。锁定厂房、烟囱和河岸的位置，才能说清后面到底改了什么。",
+      "source_section": "01"
+    },
+    {
+      "id": "SH03",
+      "chapter": "02 / 比较方案",
+      "title": "保留很多，\n还不够",
+      "key": "第一轮：留隙生长",
+      "image": "03-minimal-intervention.jpg",
+      "text": "第一轮选择最小干预。旧建筑基本保留，但分散的空间，仍然缺少一条清楚的公共路线。",
+      "source_section": "02"
+    },
+    {
+      "id": "SH04",
+      "chapter": "03 / 提出主张",
+      "title": "第二生产线",
+      "key": "从生产商品，到生产公共生活",
+      "image": "04-second-production-line.jpg",
+      "text": "第二轮换了一个思路，叫第二生产线。用红橙色公共线，把厂房、文化大厅和滨水空间连起来。",
+      "source_section": "03"
+    },
+    {
+      "id": "SH05",
+      "chapter": "04 / 落到动作",
+      "title": "把概念\n变成动作",
+      "key": "切 · 架 · 并 · 植 · 降",
+      "image": "05-masterplan.png",
+      "text": "切开局部厂房，架起公共线，合并仓库，植入新空间，再下降到河岸。设计主张要能落到图上。",
+      "source_section": "03"
+    },
+    {
+      "id": "SH06",
+      "chapter": "05 / 用剖面核对",
+      "title": "路线如何\n真正接上？",
+      "key": "高度 · 连接 · 落地",
+      "image": "06-long-section.png",
+      "text": "再用剖面检查：路线有多高，怎样进入厂房，最后怎样落到河岸。氛围图回答不了这些问题。",
+      "source_section": "04"
+    },
+    {
+      "id": "SH07",
+      "chapter": "工具如何分工",
+      "title": "判断、同步、\n视觉推演",
+      "key": "ChatGPT / Codex / GPT Image",
+      "image": "02-existing-plan.png",
+      "text": "文章里的分工是：对话梳理判断，代码助手同步图纸和版本，图像模型推演视觉。三者共同维护一条证据链。",
+      "source_section": "05"
+    },
+    {
+      "id": "SH08",
+      "chapter": "不能跳过的边界",
+      "title": "概念成立，\n不等于能施工",
+      "key": "假设场地 · 概念研究",
+      "image": "06-long-section.png",
+      "text": "注意，这里是一个假设场地。测绘、结构、消防和防洪仍需核验，概念图不能替代工程论证。",
+      "source_section": "06"
+    },
+    {
+      "id": "SH09",
+      "chapter": "暂停 / 换你判断",
+      "title": "如果只有\n一张终稿……",
+      "key": "你会要求补哪两类图？",
+      "image": "04-second-production-line.jpg",
+      "text": "现在暂停想一想。如果别人只给你一张改造终稿，你会要求补哪两类图，来检查它的设计逻辑？",
+      "source_section": "教学改编"
+    },
+    {
+      "id": "SH10",
+      "chapter": "自检答案",
+      "title": "先看依据，\n再看关系",
+      "key": "原始图 + 总平面／剖面",
+      "image": "05-masterplan.png",
+      "text": "先补原始状态，再用总平面或剖面核对改造关系。下一次看人工智能设计，别只问好不好看，要问改了什么，为什么。",
+      "source_section": "01、04；教学归纳",
+      "hold_s": 0.3
+    }
+  ]
+}

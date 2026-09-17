@@ -1,0 +1,10 @@
+{
+  "name": "video-workbench-tools",
+  "private": true,
+  "scripts": {
+    "hf": "hyperframes"
+  },
+  "dependencies": {
+    "hyperframes": "0.8.46"
+  }
+}

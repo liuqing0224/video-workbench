@@ -1,0 +1,21 @@
+.venv/
+__pycache__/
+.pytest_cache/
+node_modules/
+apps/web/dist/
+workspace/
+*.pyc
+.DS_Store
+
+.ruff_cache/
+*.tsbuildinfo
+
+# Local credentials and runtime backups
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.sqlite
+*.sqlite-*
+backups/

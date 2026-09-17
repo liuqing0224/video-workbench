@@ -1,0 +1,18 @@
+{
+  "project_id": null,
+  "revision": "draft-v1",
+  "status": "template",
+  "claims": [
+    {
+      "claim_id": "C01",
+      "text": null,
+      "kind": "待分类：事实/推断/示意",
+      "source": null,
+      "asset_ids": [
+        "A01"
+      ],
+      "verification": "unverified",
+      "public_use": null
+    }
+  ]
+}

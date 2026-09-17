@@ -1,0 +1,24 @@
+{
+  "project_id": null,
+  "revision": "draft-v1",
+  "status": "template",
+  "components": [
+    {
+      "component_id": "UI01",
+      "purpose": null,
+      "implementation": null,
+      "status": "planned"
+    }
+  ],
+  "shots": [
+    {
+      "shot_id": "SH01",
+      "component_ids": [
+        "UI01"
+      ],
+      "asset_ids": [
+        "A01"
+      ]
+    }
+  ]
+}

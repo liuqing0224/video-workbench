@@ -1,0 +1,32 @@
+{
+  "project_id": "example-marketing",
+  "revision": "draft-v1",
+  "status": "illustrative",
+  "provider": "local_qwen",
+  "model_version": null,
+  "service_reference": null,
+  "voice": null,
+  "parameters": {},
+  "pronunciation": [],
+  "requests": [
+    {
+      "segment_id": "SEG01",
+      "text": "把分散的信息整理成清楚的任务。",
+      "output_path": null,
+      "revision": "draft-v1"
+    },
+    {
+      "segment_id": "SEG02",
+      "text": "这份概念界面展示任务、负责人和截止时间。",
+      "output_path": null,
+      "revision": "draft-v1"
+    },
+    {
+      "segment_id": "SEG03",
+      "text": "查看概念演示，判断这种整理方式是否适合你的工作。",
+      "output_path": null,
+      "revision": "draft-v1"
+    }
+  ],
+  "listening_review": "not_done"
+}
