@@ -986,3 +986,11 @@ pre {
 .audio-controls { display:flex; align-items:center; gap:10px; flex-wrap:wrap; padding:12px 0; }
 .audio-controls input[type=range] { flex:1; min-width:100px; padding:0; }
 .audio-controls audio { display:none; }
+
+.visual-review { grid-column: 1 / -1; }
+.visual-candidates { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px; }
+.visual-candidates article { min-width: 0; border: 1px solid var(--line); padding: 18px; border-radius: 12px; }
+.visual-candidates p { overflow-wrap:anywhere; }
+.visual-check { display:flex; align-items:flex-start; gap:10px; margin:18px 0; line-height:1.7; }
+.visual-check input { width:auto; margin-top:7px; }
+@media(max-width:1100px){.visual-candidates{grid-template-columns:1fr}}

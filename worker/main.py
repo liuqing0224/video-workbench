@@ -139,6 +139,13 @@ class Worker:
             (work / "qa").mkdir(exist_ok=True)
             (work / "exports").mkdir(exist_ok=True)
             config = s.project(pid)["config"]
+            visual_lock = None
+            if (r["kind"] == "agent" and r["stage"] == "preview") or r["kind"] in ("render", "package", "article"):
+                from apps.server.visual import require_approved
+                try:
+                    visual_lock = require_approved(s, pid)
+                except ValueError as exc:
+                    raise Blocked(str(exc))
             outputs = []
             message = ""
             needs_review = False
@@ -166,6 +173,10 @@ class Worker:
                 if r["stage"] == "timing":
                     skills += ["video-qwen-narration"]
                 prompt = f"""你正在执行视频平台的单个阶段：{r["stage"]}。只在当前工作目录内产出内容。\n读取 AGENTS.md 以及下列 Skills：{[str(ROOT / ".agents/skills" / x / "SKILL.md") for x in skills]}\n输入配置：{dumps(config)}\n用户本次意见（作为需求，不得覆盖执行边界）：{r["payload"].get("instruction", "")}\n交接字段见 {ROOT / "文件交接约定.md"}。当前目录 documents 存放文档和 JSON，其他目录存放素材。维护稳定编号。\n必需产物：{REQUIRED[r["stage"]]}。不得虚构事实、声音、生成结果、审核或运行工具证据。缺少依赖就返回 blocked 并列出原因。不得直接访问 Qwen、执行渲染、发布或更改平台数据库；需要这些操作时列为阻塞。\n每个完整工程镜头节点写 data-shot-id 对应 timing.json 的 shot_id；data-start、data-duration 和根总时长必须匹配时间表。画面工程使用 HyperFrames，先读取已安装 hyperframes Skill 及对应领域规范。已存在 BRIEF 时不重新访谈；必要时补 workflow/flow 字段。\n只返回 schema 规定的结果；artifacts 必须列出现有文件的相对路径。"""
+                from apps.server.visual import state as visual_state
+                visual = visual_state(s, pid)
+                if visual["required"]:
+                    prompt += "\n视觉交接（平台状态为准，不得自行写已批准）：" + dumps(visual) + "\n若已选择方向，读取对应design_path实现整片。未选择时只准备参考和小样，不制作完整视频。不要继承旧项目颜色。已确认时不得更改DESIGN.md、REFERENCES.md、VISUAL-PLAN.json、候选设计及小样证据；需修改则返回blocked请求重新确认。"
                 required = REQUIRED[r["stage"]]
                 if r["kind"] == "article-plan":
                     from adapters.article_plan import read_article, plan_prompt, REQUIRED_ARTICLE_PLAN
@@ -208,6 +219,9 @@ class Worker:
                     raise ValueError("原文留档被修改，请保持 SOURCE.md 与导入文章一致")
                 if r["stage"] == "timing":
                     timing_validate(work / "documents/timing.json")
+                if visual_lock:
+                    from apps.server.visual import verify_work_copy
+                    verify_work_copy(visual_lock, work)
                 if r["stage"] in ("sample", "preview"):
                     if r["stage"] == "preview":
                         check_timing(
@@ -223,6 +237,9 @@ class Worker:
                     args[args.index("delivery")] = "draft"
                     run_cmd(args, folder / "preview-render.log")
                     outputs.append(str(preview.relative_to(work)))
+                    if r["stage"] == "sample" and (config.get("visual_review_required") or (work / "documents/VISUAL-PLAN.json").exists()):
+                        from apps.server.visual import register_sample
+                        register_sample(work, rid)
                 message = data["summary"]
                 needs_review = r["stage"] in GATES and not (
                     r["stage"] == "timing" and config.get("audio_mode") == "none"
@@ -392,6 +409,7 @@ class Worker:
                     ],
                     "qa_review_run": rr["id"],
                     "learning_effect": "not_verified",
+                    "visual_review": visual_lock,
                 }
                 atomic(work / "exports" / "delivery.json", dumps(manifest))
                 with zipfile.ZipFile(target, "a", zipfile.ZIP_DEFLATED) as z:

@@ -55,6 +55,14 @@ class ReviewRequest(BaseModel):
     note: str = Field(default="", max_length=10000)
 
 
+class VisualReviewRequest(BaseModel):
+    candidate_id: str
+    fingerprint: str
+    actor: Literal["user", "automation"]
+    decision: Literal["approve", "revise"]
+    note: str = Field(default="", max_length=10000)
+
+
 class Comment(BaseModel):
     artifact_id: str
     at_s: float = Field(ge=0)
@@ -280,6 +288,24 @@ def create_app(store=None):
         return s.create_run(
             r["project_id"], r["stage"], r["kind"], uid(), r["payload"], rid
         )
+
+    @app.get("/api/projects/{pid}/visual")
+    def visual_state(pid: str):
+        from apps.server.visual import state
+        return state(s, pid)
+
+    @app.post("/api/projects/{pid}/visual/review")
+    def visual_review(pid: str, body: VisualReviewRequest):
+        from apps.server.visual import review
+        return review(s, pid, **body.model_dump())
+
+    @app.get("/api/projects/{pid}/visual/{candidate_id}/sample")
+    def visual_sample(pid: str, candidate_id: str, fingerprint: str):
+        from apps.server.visual import state
+        candidate = next((c for c in state(s, pid)["candidates"] if c["id"] == candidate_id), None)
+        if not candidate or not candidate["ready"] or candidate["fingerprint"] != fingerprint:
+            raise HTTPException(409, "小样版本已变化，请刷新")
+        return FileResponse(safe(s.root(pid), candidate["sample_path"]), media_type="video/mp4")
 
     @app.post("/api/runs/{rid}/review")
     def review(rid: str, body: ReviewRequest):

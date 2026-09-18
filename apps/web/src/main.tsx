@@ -1,3 +1,4 @@
+import { VisualReview } from "./VisualReview";
 import { AudioPlayer } from "./AudioPlayer";
 import { CodexLog } from "./CodexLog";
 import { parseCodexProgress, parseCodexLog, mergeCodexProgress, type CodexActivity } from "./codexProgress";
@@ -905,6 +906,7 @@ function App() {
               )}
               {tab === "preview" && (
                 <div className="preview-grid">
+                  <VisualReview key={project.id} projectId={project.id} api={api} onChange={refresh} />
                   <section className="panel">
                     <div className="section-title">
                       <h2>{current ? "版本预览" : "内容方案"}</h2>
@@ -1158,6 +1160,7 @@ function App() {
                   config: {
                     brief,
                     audio_mode: audioMode,
+                    visual_review_required: true,
                     targets: {
                       width: orientation === "vertical" ? 1080 : 1920,
                       height: orientation === "vertical" ? 1920 : 1080,

@@ -14,3 +14,7 @@ description: 创建、继续或修改本平台视频项目时，按公共八阶�
 选择 HyperFrames 画廊案例时，按需读取平台根目录 `references/hyperframes-showcases/讲解与视觉经验库.md` 与 `播放入口核对.md`。核对标题、实际媒体与时长；将讲解顺序、色彩角色和状态变化映射到本片。未播放或仅查看源码的项目保持相应证据等级，不能当作已验证成片模板。
 
 用户只导入文章时，由 article-plan 内容任务完成原文→选题→自媒体改写→案例映射→分镜草案→制作交接。读取 SOURCE.md，输出 ARTICLE-ANALYSIS.md 与 PRODUCTION-PLAN.md，以及正式内容交接文件。不能让用户填写脚本 JSON，不能照原文章段落做卡片轮播。教学围绕一个观众问题、例子和自检；营销围绕一个收益、证据与入口。策划中的时长是估计，素材缺口明确列出，内容确认不代表声音、小样或成片已通过。
+
+视觉确认规则见平台根目录 `docs/视觉方向确认.md`。新项目和视觉重做先输出候选设计和真实小样；整片采用平台已选择candidate的design_path。没有选择时停在具体小样交接，不继承旧工程颜色。
+
+小样阶段可写 documents/VISUAL-CANDIDATE.json 的 name/description/reference，平台实际渲染成功后自动归档候选并加入视觉选择，不由Agent伪造MP4或确认。

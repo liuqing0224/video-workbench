@@ -89,7 +89,8 @@ class Store:
             CREATE TABLE IF NOT EXISTS events(id INTEGER PRIMARY KEY AUTOINCREMENT,project_id TEXT,run_id TEXT,kind TEXT NOT NULL,data TEXT NOT NULL,created REAL NOT NULL);
             CREATE TABLE IF NOT EXISTS services(name TEXT PRIMARY KEY,config TEXT NOT NULL);
             CREATE TABLE IF NOT EXISTS comments(id TEXT PRIMARY KEY,project_id TEXT,artifact_id TEXT,at_s REAL,note TEXT,created REAL);
-            PRAGMA user_version=1;
+            CREATE TABLE IF NOT EXISTS visual_reviews(id TEXT PRIMARY KEY,project_id TEXT NOT NULL,candidate_id TEXT NOT NULL,fingerprint TEXT NOT NULL,actor TEXT NOT NULL,decision TEXT NOT NULL,note TEXT NOT NULL,created REAL NOT NULL);
+            PRAGMA user_version=2;
             """)
         token = self.home / "session.token"
         if not token.exists():
@@ -241,7 +242,13 @@ class Store:
         }
         story = content | {"STORYBOARD.md", "DESIGN.md", "components-map.json"}
         names = common if stage == "brief" else content if stage == "content" else story
-        if stage in ("timing", "preview", "render", "delivery"):
+        if stage == "timing":
+            # Pure visual revisions do not invalidate measured voice/caption timing.
+            timing_docs = {"BRIEF.md", "SCRIPT.md", "voice-config.json", "timing.json", "claims-map.json"}
+            return {k: v for k, v in snapshot.items() if k == "@config"
+                    or k.startswith(("audio/", "captions/"))
+                    or (k.startswith("documents/") and Path(k).name in timing_docs)}
+        if stage in ("preview", "render", "delivery"):
             return snapshot
         return {
             k: v
@@ -312,6 +319,9 @@ class Store:
                 return old
             if self.active(c, pid):
                 raise ValueError("项目已有排队或运行任务")
+            if (kind == "agent" and stage == "preview") or kind in ("render", "package", "article"):
+                from apps.server.visual import require_approved
+                require_approved(self, pid)
             if kind == "agent" and STAGES.index(stage) > 0:
                 prev = STAGES[STAGES.index(stage) - 1]
                 if not self.gate(pid, prev, snap):
